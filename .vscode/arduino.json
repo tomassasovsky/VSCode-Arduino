@@ -1,9 +1,9 @@
 {
-    "port": "COM6",
+    "port": "COM7",
     "programmer": "AVRISP mkII",
-    "board": "esp32:esp32:node32s",
-    "sketch": "WiFi_Bluetooth_ESP32\\WiFi_Bluetooth_ESP32.ino",
+    "board": "arduino:avr:nano",
+    "sketch": "soldering-station/soldering-station.ino",
     "output": "../build",
     "debugger": "jlink",
-    "configuration": "FlashFreq=80,UploadSpeed=921600"
+    "configuration": "cpu=atmega328"
 }

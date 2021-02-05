@@ -7,14 +7,6 @@ Tomás Sasovsky 23 - 09 - 2020
 #include <EEPROM.h>    //Library to store the potentiometer values
 #define DEBOUNCE 10  // how many ms to debounce, 5+ ms is usually plenty
 
-byte buttons[] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, A2};
-#define buttonsQuantity sizeof(buttons)
-
-//track if a button is just pressed, just released, or 'currently pressed' 
-byte pressed[buttonsQuantity], justPressed[buttonsQuantity], justReleased[buttonsQuantity];
-byte previousKeystate[buttonsQuantity], currentKeystate[buttonsQuantity];
-byte lastPressed;
-
 #define pinLEDs 2
 #define qtyLEDs 19
 #define typeOfLEDs WS2812B    //type of LEDs i'm using
@@ -29,23 +21,9 @@ byte lastPressed;
 #define dataPin A1
 #define clockPin A0
 #define swPin A2
-CRGB LEDs[qtyLEDs]; 
 
-int lastState;
-int state;
-byte counterLEDs = 0;
-byte vol[4];
-
-unsigned long time = 0;    //the last time the output pin was toggled
-unsigned long lastClear = 0;
-unsigned long timeVolume = 0;
-unsigned long timeSleepMode = 0;
-unsigned long lastLEDsMillis = 0;
-unsigned long previousBreathe = 0;
 #define debounceTime 150    //the debounce time, increase if the output flickers
 #define doublePressClearTime 750
-
-char State[4] = {'E', 'E', 'E', 'E'};
 
 //the next tags are to make it simpler to select a track when used in a function
 #define TR1 0
@@ -57,9 +35,53 @@ char State[4] = {'E', 'E', 'E', 'E'};
 #define minBrightness 15
 #define maxBrightness 240
 
-byte ringPosition = 0;  //the led ring has 12 leds. This variable is to set the position in which the first lit led is during the animation.
-byte setRingColour = 0;    //yellow is 35/50 = 45, red is 0, green is 96
+#define midichannel 0x90
 #define ringSpeed  54.6875    //46.875 62.5
+
+CRGB LEDs[qtyLEDs];
+
+byte buttons[] = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, A2};
+#define buttonsQuantity sizeof(buttons)
+//track if a button is just pressed, just released, or 'currently pressed'
+
+byte
+pressed[buttonsQuantity], justPressed[buttonsQuantity], justReleased[buttonsQuantity],
+previousKeystate[buttonsQuantity], currentKeystate[buttonsQuantity],
+lastPressed,
+counterLEDs = 0,
+vol[4],
+ringPosition = 0,  //the led ring has 12 leds. This variable is to set the position in which the first lit led is during the animation.
+setRingColour = 0,    //yellow is 35/50 = 45, red is 0, green is 96
+selectedTrack = TR1,    //this variable is to keep constant track of the selected track
+selectedTrackLED,
+fadeValue = 100;
+
+
+int
+lastState,
+state;
+
+unsigned long
+time = 0,    //the last time the output pin was toggled
+lastClear = 0,
+timeVolume = 0,
+timeSleepMode = 0,
+lastLEDsMillis = 0,
+previousBreathe = 0;
+
+char State[4] = {'E', 'E', 'E', 'E'};
+
+bool
+x2pressed = false,
+firstRecording = true,    //this track is only true when the pedal has not been used to record yet.
+stopMode = false,
+stopModeUsed = false,
+playMode = false,    //false = Rec mode, true = Play Mode
+sleepMode = false,
+startLEDsDone = false,
+doublePressClear = false,
+doublePressPlay = false,
+fadeDirection = true,    //State Variable for Fade Direction
 
 /*
 when Rec/Play is pressed in Play Mode, every track gets played, no matter if they are empty or not.
@@ -67,25 +89,10 @@ because of this, we need to keep an even tighter tracking of each of the track's
 so if Rec/Play is pressed in Play Mode and, for example, the track 3 is empty, the corresponding variable (Tr3PlayedWRecPlay) turns true
 likewise, when the button Stop is pressed, every track gets muted, so every one of these variables turn false.
 */
-bool playedWithRecPlay[4] = {false, false, false, false};
-bool pressedInStop[4] = {false, false, false, false};    //when a track is pressed-in-stop, it gets focuslocked
+playedWithRecPlay[4] = {false, false, false, false},
+pressedInStop[4] = {false, false, false, false};    //when a track is pressed-in-stop, it gets focuslocked
 
-byte selectedTrack = TR1;    //this variable is to keep constant track of the selected track
-byte selectedTrackLED;
-byte fadeValue = 100;
 unsigned int x2timesPressed = 1;
-bool x2pressed = false;
-bool firstRecording = true;    //this track is only true when the pedal has not been used to record yet.
-bool stopMode = false;
-bool stopModeUsed = false;
-bool playMode = false;    //false = Rec mode, true = Play Mode
-bool sleepMode = false;
-bool startLEDsDone = false;
-bool doublePressClear = false;
-bool doublePressPlay = false;
-bool fadeDirection = true;    //State Variable for Fade Direction
-
-#define midichannel 0x90
 //31250 - 38400
 void setup() {
   Serial.begin(31250);    //to use only the Arduino UNO (Atmega16u2). You must upload another bootloader to use it as a native MIDI-USB device.

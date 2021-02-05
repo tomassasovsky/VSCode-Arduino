@@ -1,3 +1,4 @@
+// #include <Arduino.h>
 #define _ESP32
 #define FASTLED_HAS_CLOCKLESS
 #define BLYNK_PRINT Serial
@@ -12,7 +13,7 @@
 #include <WiFi.h>
 #include <BlynkSimpleEsp32.h>
 #include <ESP32Servo.h>
-#include <WebServer.h> 
+#include <WebServer.h>
 #endif
 #include <EEPROM.h>
 
@@ -54,7 +55,7 @@ unsigned long servoTime = 0;
 
 char auth[] = "BQ37g6guB-XJIaaKuSRfqk4CcWTGO4uV";
 
-IPAddress local_ip(8,8,8,8);
+IPAddress localIP(8,8,8,8);
 IPAddress gateway(8,8,8,1);
 IPAddress netmask(255,255,255,0);
 
@@ -135,7 +136,7 @@ void loop() {
   server.handleClient();
   if (WiFi.status() == WL_CONNECTED) {
     if (!blynkIsConfigured) {
-      Blynk.config(auth, IPAddress(192,168,0,90), 8080);
+      Blynk.config(auth, IPAddress(192,168,1,90), 8080);
       blynkIsConfigured = true;
     }
     Blynk.run();
@@ -233,11 +234,7 @@ void connectWifi() {
 }
 void initAP() {
   WiFi.mode(WIFI_AP);
-  WiFi.softAPConfig(local_ip, gateway, netmask);
   WiFi.softAP(APSSID);
-  //server.on("/", []() {
-  //  server.send(200, "text/html", webConnect);
-  //});
   server.on("/config", wifiConfig);
   server.begin();
   Serial.println("Access Point " + String(APSSID) + " initialized.");
