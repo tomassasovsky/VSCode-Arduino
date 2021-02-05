@@ -1,0 +1,50 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Program Files (x86)/Arduino/tools/**",
+                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/**",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/esp32/tools/**",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                "${workspaceRoot}",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/**",
+                "C:/Program Files (x86)/Arduino/hardware/tools/**",
+                "C:/Program Files (x86)/Arduino/libraries/**",
+                "C:/Users/Tomas/Documents/Arduino/libraries/**",
+                "C:\\Users\\Tomas\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**",
+                "C:\\Users\\Tomas\\Documents\\Arduino\\libraries\\**",
+                "C:\\Users\\Tomas\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "C:/Users/Tomas/AppData/Local/Arduino15/packages/**",
+                    "C:/Program Files (x86)/Arduino/hardware/tools/**",
+                    "C:/Program Files (x86)/Arduino/libraries/**",
+                    "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/**",
+                    "C:/Users/Tomas/Documents/Arduino/libraries/**",
+                    "C:/Users/Tomas/Documents/Arduino/libraries/Arduino-IRremote-master/src/**"
+                ],
+                "limitSymbolsToIncludedHeaders": false,
+                "databaseFilename": ""
+            },
+            "compilerPath": "C:/MinGW/bin/g++.exe",
+            "forcedInclude": [
+                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h/**",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/variants/alksesp32/pins_arduino.h**",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/tools/sdk/include/freertos/freertos/FreeRTOS.h",
+                "C:/Users/Tomas/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/tools/sdk/include/freertos/freertos/task.h"
+            ],
+            "defines": [
+                "USBCON",
+                "FASTLED_HAS_CLOCKLESS"
+            ]
+        }
+    ],
+    "version": 4
+}

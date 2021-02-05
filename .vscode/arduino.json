@@ -1,0 +1,9 @@
+{
+    "port": "COM6",
+    "programmer": "AVRISP mkII",
+    "board": "esp32:esp32:node32s",
+    "sketch": "WiFi_Bluetooth_ESP32\\WiFi_Bluetooth_ESP32.ino",
+    "output": "../build",
+    "debugger": "jlink",
+    "configuration": "FlashFreq=80,UploadSpeed=921600"
+}

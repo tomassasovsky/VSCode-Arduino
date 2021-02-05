@@ -1,0 +1,12 @@
+{
+    "editor.tabSize": 2,
+    "prettier.tabWidth": 2,
+    "arduino.path": "C:/Program Files (x86)/Arduino",
+    "arduino.commandPath": "arduino_debug.exe",
+    "arduino.logLevel": "info",
+    "arduino.enableUSBDetection": true,
+    "arduino.additionalUrls": "",
+    "arduino.defaultBaudRate": 115200,
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "workbench.iconTheme": "material-icon-theme"
+}
